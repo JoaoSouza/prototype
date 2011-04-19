@@ -1,0 +1,269 @@
+<html>
+	<head>
+		<script type="text/javascript" src="typeof.js"></script>
+		<script type="text/javascript">
+			var ini, fin, tini, tfin,
+				tot = 0,
+				arrayObjects = [],
+				arrayTypes = [],
+				i = 0,
+				j = 0,
+				isHTMLElement = function (value) {
+					if (
+						value &&
+							typeof value === "object" &&
+							typeof value.className === "string" &&
+							typeof value.nodeType === "number" &&
+							value.nodeType === 1 &&
+							(
+								typeof value.tagName === "string" ||
+								typeof value.nodeName === "string"
+							)
+							
+					) {
+						return "htmlelement";
+					} else {
+						return false;
+					}
+				};
+				typeOf.add(isHTMLElement);
+			
+			arrayObjects = [
+								{
+									"object": function () { }, 								//00//function
+									"string": "function () { }"
+								},
+								{
+									"object": new Object(), 								//01//object
+									"string": "new Object()"
+								},
+								{
+									"object": { }, 											//02//object
+									"string": "{ }"
+								},
+								{
+									"object": [], 											//03//array
+									"string": "[]"
+								},
+								{
+									"object": new Array(), 									//04//array
+									"string": "new Array()"
+								},
+								{
+									"object": new Number(), 								//03//number
+									"string": "new Number()"
+								},
+								{
+									"object": 123, 											//06//number
+									"string": "123"
+								},
+								{
+									"object": 123.321, 										//07//number
+									"string": "123.321"
+								},
+								{
+									"object": "", 											//08//string
+									"string": "\"\""
+								},
+								{
+									"object": "abc", 										//09//string
+									"string": "\"abc\""
+								},
+								{
+									"object": /^$/, 										//10//regexp
+									"string": "/^$/"
+								},
+								{
+									"object": new RegExp("^$"), 							//11//regexp
+									"string": "new RegExp(\"^$\")"
+								},
+								{
+									"object": new Function(""), 							//12//function
+									"string": "new Function(\"\")"
+								},
+								{
+									"object": parseFloat(""), 								//13//not a number
+									"string": "parseFloat(\"\")"
+								},
+								{
+									"object": parseFloat("0"), 								//14//number
+									"string": "parseFloat(\"0\")"
+								},
+								{
+									"object": parseFloat(0), 								//15//number
+									"string": "parseFloat(0)"
+								},
+								{
+									"object": parseInt("0"), 								//16//number
+									"string": "parseInt(\"0\")"
+								},
+								{
+									"object": NaN, 											//17//not a number
+									"string": "NaN"
+								},
+								{
+									"object": undefined, 									//18//undefined
+									"string": "undefined"
+								},
+								{
+									"object": this[" a a a a a "],							//19//undefined
+									"string": "this[\" a a a a a \"]"
+								},
+								{
+									"object": /^.+$/.exec(""), 								//20//null
+									"string": "/^.+$/.exec(\"\")"
+								},
+								{
+									"object": null,											//21//null
+									"string": "null"
+								},
+								{
+									"object": new Boolean(),								//22//boolean
+									"string": "new Boolean()"
+								},
+								{
+									"object": parseFloat("1.1"),							//23//number
+									"string": "parseFloat(\"1.1\")"
+								},
+								{
+									"object": Number.MAX_VALUE * (+10),						//24//positive infinity number
+									"string": "Number.MAX_VALUE * (+10)"
+								},
+								{
+									"object": Number.MAX_VALUE * (-10),						//25//negative infinity number
+									"string": "Number.MAX_VALUE * (-10)"
+								},
+								{
+									"object": new Function("alert(\"alert!\")"), 			//26//function
+									"string": "new Function(\"alert(\\\"alert!\\\"\")"
+								},
+								{
+									"object": new Date(), 									//27//date
+									"string": "new Date()"
+								},
+								{
+									"object": new String(), 								//28//string
+									"string": "new String()"
+								},
+								{
+									"object": document.createElement("div"), 				//29//
+									"string": "document.createElement(\"div\")"
+								}
+							];
+			tini = +(new Date());
+			for (
+					i = 0;
+					i < arrayObjects.length;
+					i += 1
+			) {
+				ini = (+(new Date()));
+				for (
+						j = 0;
+						j < 100000;
+						j +=1
+				) {
+					//100000 Iterations
+						//arrayTypes[i] = (arrayObjects[i].object.typeOf());
+							//(Google Chrome 10)
+								//Version 1.0
+									//(1)
+										//18098ms - Total
+										//0.18098ms - Per Iteration
+										//0.006702962962962963ms - Per Call
+									//(2)
+										//18065ms - Total
+										//0.18065ms - Per Iteration
+										//0.006690740740740741ms - Per Call
+									//(3)
+										//20456ms - Total
+										//0.20456ms - Per Iteration
+										//0.007576296296296296ms - Per Call
+									//(4)
+										//19166ms - Total
+										//0.19166ms - Per Iteration
+										//0.007098518518518519ms - Per Call
+									//(5)
+										//18335ms - Total
+										//0.18335ms - Per Iteration
+										//0.006790740740740741ms - Per Call
+									//(Average)
+										//18824ms - Total
+										//0.18824ms - Per Iteration
+										//0.006971851851851852ms - Per Call
+								//Version 1.1
+
+						arrayTypes[i] = typeOf(arrayObjects[i].object);
+							//(Google Chrome 10)
+								//Version 1.0 -> First Stable Version
+									//(1)
+										//4147ms - Total
+										//0.04147ms - Per Iteration
+										//0.0015359259259259258ms - Per Call
+									//(2)
+										//4148ms - Total
+										//0.04148ms - Per Iteration
+										//0.0015362962962962965ms - Per Call
+									//(3)
+										//4420ms - Total
+										//0.0442ms - Per Iteration
+										//0.001637037037037037ms - Per Call
+									//(4)
+										//4004ms - Total
+										//0.04004ms - Per Iteration
+										//0.0014829629629629628ms - Per Call
+									//(5)
+										//4044ms - Total
+										//0.04044ms - Per Iteration
+										//0.0014977777777777776ms - Per Call
+									//(Average)
+										//4152.6ms - Total
+										//0.04152ms - Per Iteration
+										//0.001537999999999999ms - Per Call
+								//Version 1.1 -> First Improved Version
+									//(0)
+									//2s - Total
+								//Version 1.2 -> Added "Date" Type
+									//(0)
+									//1.2s - Total
+								//Version 1.3 -> Added a way to add more User Defined Types
+									//(0)
+									//1.4 - Total
+				}
+				tot += (fin = (+(new Date())) - ini);
+				document.write(
+					"<br />" + 
+					"Type: " + arrayTypes[i] + " ---&gt; " + arrayObjects[i].string +
+					"<br />" + 
+					fin + "ms - Total" +
+					"<br />" +
+					j + " - Iterations" +
+					"<br />" +
+					(fin / j) + "ms - Per Call" +
+					"<br />"
+				);
+			}
+			//for (i = 0; i < arrayTypes.length; i += 1) {
+					//document.write(arrayObjects[i].string + " = " + arrayTypes[i] + "<br />");
+			//}
+			
+			//tfin = +(new Date()) - tini;
+			document.write(
+				"<br />" + 
+				tot + "ms - Total" + 
+				"<br />" + 
+				(j * arrayTypes.length) + " - Iterations" +
+				"<br />" + 
+				(tot / (j * arrayTypes.length)) + " - Per Call"
+			//	tfin + "ms - Total" +
+			//	"<br />" +
+			//	(tfin / j) + "ms - Per Iteration" +
+			//	"<br />" +
+			//	(((tfin) / j) / i) + "ms - Per Call" +
+			//	"<br />"
+			);
+		</script>
+	</head>
+	<body>
+		
+	</body>
+</html>
