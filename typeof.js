@@ -1,3 +1,9 @@
+/*
+	Author: Joao Alves de Souza Neto
+	Site: https://github.com/JoaoSouza/
+	License: http://creativecommons.org/licenses/by-sa/3.0/
+*/
+
 (function (global) {
 	"use strict";
 	var typeof_function = "typeOf", prototype_object = "prototype", i = 0,
