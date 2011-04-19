@@ -162,8 +162,11 @@
 						j < 100000;
 						j +=1
 				) {
+					try {
 					//100000 Iterations
-						//arrayTypes[i] = (arrayObjects[i].object.typeOf());
+						//if (typeof arrayObjects[i].object !== "undefined" && arrayObjects[i].object !== null) {
+						//	arrayTypes[i] = arrayObjects[i].object.typeOf();
+						//}
 							//(Google Chrome 10)
 								//Version 1.0
 									//(1)
@@ -190,7 +193,9 @@
 										//18824ms - Total
 										//0.18824ms - Per Iteration
 										//0.006971851851851852ms - Per Call
-								//Version 1.1
+								//Version 1.3
+									//(0)
+										//3452ms - Total
 
 						arrayTypes[i] = typeOf(arrayObjects[i].object);
 							//(Google Chrome 10)
@@ -221,13 +226,16 @@
 										//0.001537999999999999ms - Per Call
 								//Version 1.1 -> First Improved Version
 									//(0)
-									//2s - Total
+									//2000ms - Total
 								//Version 1.2 -> Added "Date" Type
 									//(0)
-									//1.2s - Total
+									//1200ms - Total
 								//Version 1.3 -> Added a way to add more User Defined Types
 									//(0)
-									//1.4 - Total
+										//1400ms - Total
+					} catch (ex) {
+
+					}
 				}
 				tot += (fin = (+(new Date())) - ini);
 				document.write(
